@@ -1,5 +1,7 @@
 import fs from "node:fs/promises";
 import express from "express";
+// routes
+import indexRouter from "./backend/v1/index";
 
 // Constants
 const isProduction = process.env.NODE_ENV === "production";
@@ -33,6 +35,8 @@ if (!isProduction) {
   app.use(compression());
   app.use(base, sirv("./dist/client", { extensions: [] }));
 }
+
+app.use("/api/v1/", indexRouter);
 
 // Serve HTML
 app.use("*", async (req, res) => {
